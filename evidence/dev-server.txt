@@ -1,0 +1,25 @@
+npm notice run dev
+npm notice run vite --host 127.0.0.1 --port 5173 --strictPort
+9:13:06 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+
+  VITE v8.3.4  ready in 156 ms
+
+  ➜  Local:   http://127.0.0.1:5173/
+9:18:01 PM [vite] (client) [Unhandled error] Error: prompt() is not supported.
+ > rename src/App.tsx:32:29
+    30 |  
+    31 |      function rename(task: Task) {
+    32 |          const title = window.prompt("Название", task.title)
+       |                               ^
+    33 |          if (title == null) return
+    34 |          if (isBlankTitle(title)) {
+ > onClick src/App.tsx:74:47
+ > executeDispatch node_modules/react-dom/cjs/react-dom-client.development.js:20804:8
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:1045:29
+ > processDispatchQueue node_modules/react-dom/cjs/react-dom-client.development.js:20854:18
+ > node_modules/react-dom/cjs/react-dom-client.development.js:21423:8
+ > batchedUpdates$1 node_modules/react-dom/cjs/react-dom-client.development.js:3437:39
+ > dispatchEventForPluginEventSystem node_modules/react-dom/cjs/react-dom-client.development.js:21008:6
+ > dispatchEvent node_modules/react-dom/cjs/react-dom-client.development.js:26142:10
+ > dispatchDiscreteEvent node_modules/react-dom/cjs/react-dom-client.development.js:26110:10
+

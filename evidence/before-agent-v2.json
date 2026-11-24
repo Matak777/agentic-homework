@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-11-24T21:29:55.359824+03:00",
+  "phase": "U+200B SPEC and tests before implementation update",
+  "files": {
+    "SPEC.md": "25df1cd50ae645c6e49d9099a59e182578c071a2196997d7f7ef9e8c4fdb6f5b",
+    "src/zero-width.test.ts": "c131cfca2c70c6c51516c025a1a3b20a05071e8d5450b64d3d1dd70eb6b1e1b8",
+    "src/tasks.ts": "1245174f69ad0de0bfe7f44940226128d2923b1727306237012c69da5e49bfaf",
+    "src/App.tsx": "e401fa0d3178baab62ce50d658cbbe59644728d6b36b22ee999e8ecf5b772436"
+  },
+  "text_revision": {
+    "recorded_at": "2026-11-24T22:14:56.014702+03:00",
+    "note": "Спецификация и комментарии тестов отредактированы после исходных прогонов. Старые хеши в files относятся к первоначальным версиям; логика тестов не менялась.",
+    "current_files_sha256": {
+      "SPEC.md": "637d642749251d0b7d826955b5d18acd7bd12f69d5119f83d642997c9bafe20f",
+      "src/zero-width.test.ts": "0d10d3c0d29d8fbea122aa6f626124f3ef3de55e61f98a7d4a9dc71b1f72a036"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-11-24T21:09:40.286790+03:00",
+  "phase": "tests and SPEC before implementation",
+  "files": {
+    "SPEC.md": "cdaa0ef3d82672e81bd354ba4037a1e91a5f17f8f650771953bd6ac7137c30b6",
+    "src/acceptance.test.ts": "4bbe7580e6ae98207eceb98af537e5324eed45e37c69534f517d809ddf9d6a09",
+    "src/tasks.ts": "8a1b027e1a00abaaaf92aff78ce1d19cc56d01ccdafa1d1d2740b1f0d0a16a13",
+    "src/App.tsx": "957a8b9cccbf1bd011fa45cc4fb013e6457cbcae71bf6e57c5d4be5c9d5121c0"
+  },
+  "text_revision": {
+    "recorded_at": "2026-11-24T22:14:56.014702+03:00",
+    "note": "Спецификация и комментарии тестов отредактированы после исходных прогонов. Старые хеши в files относятся к первоначальным версиям; логика тестов не менялась.",
+    "current_files_sha256": {
+      "SPEC.md": "637d642749251d0b7d826955b5d18acd7bd12f69d5119f83d642997c9bafe20f",
+      "src/acceptance.test.ts": "b6007edc2d7c5c6f429d4da3f93c7685f36da4c8791651a7f796a6debdac88d4"
+    }
+  }
+}

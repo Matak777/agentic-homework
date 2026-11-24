@@ -1,0 +1,48 @@
+{
+  "recorded_at": "2026-11-24T21:55:10.832488+03:00",
+  "tests": {
+    "passed": 41,
+    "failed": 0
+  },
+  "build": "passed",
+  "mutations": {
+    "а": {
+      "failed": 10,
+      "passed": 22,
+      "total": 32,
+      "restored_green": true
+    },
+    "б": {
+      "failed": 5,
+      "passed": 27,
+      "total": 32,
+      "restored_green": true
+    },
+    "в": {
+      "failed": 8,
+      "passed": 24,
+      "total": 32,
+      "restored_green": true
+    },
+    "г": {
+      "failed": 9,
+      "passed": 32,
+      "total": 41,
+      "restored_green": true
+    }
+  },
+  "requirements": {
+    "SPEC_sections": 5,
+    "REFLECTION_lines": 5,
+    "tests_written_before_each_implementation": true,
+    "implementation_agent_read_test_source": false,
+    "hidden_instructor_tests": "unavailable"
+  },
+  "source_sha256": {
+    "src/tasks.ts": "e651e37d9d9a4ce29159afeb176bf0c653fcc87310c204c71e9445d6983038bd",
+    "src/App.tsx": "e401fa0d3178baab62ce50d658cbbe59644728d6b36b22ee999e8ecf5b772436",
+    "src/acceptance.test.ts": "b6007edc2d7c5c6f429d4da3f93c7685f36da4c8791651a7f796a6debdac88d4",
+    "src/zero-width.test.ts": "0d10d3c0d29d8fbea122aa6f626124f3ef3de55e61f98a7d4a9dc71b1f72a036"
+  },
+  "text_revision_at": "2026-11-24T22:14:56.014702+03:00"
+}

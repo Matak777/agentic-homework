@@ -1,0 +1,94 @@
+diff --git a/src/App.tsx b/src/App.tsx
+index 4a0f75b..9fdb82c 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -2,6 +2,7 @@ import { useState } from "react"
+ import {
+     createTask,
+     Filter,
++    isBlankTitle,
+     openCount,
+     renameTask,
+     seedTasks,
+@@ -19,6 +20,7 @@ export function App() {
+     const [tasks, setTasks] = useState<Task[]>(seedTasks)
+     const [filter, setFilter] = useState<Filter>("all")
+     const [draft, setDraft] = useState("")
++    const [renameError, setRenameError] = useState("")
+ 
+     function add() {
+         const next = createTask(tasks.length + 1, draft)
+@@ -29,9 +31,12 @@ export function App() {
+     function rename(task: Task) {
+         const title = window.prompt("Название", task.title)
+         if (title == null) return
+-        // Старая форма сохраняла название без проверки; этот путь оставлен
+-        // ради редактирования в один шаг, и issue #7 именно про него.
++        if (isBlankTitle(title)) {
++            setRenameError("Название не может быть пустым")
++            return
++        }
+         setTasks(renameTask(tasks, task.id, title))
++        setRenameError("")
+     }
+ 
+     const shown = visibleTasks(tasks, filter)
+@@ -43,6 +48,8 @@ export function App() {
+                 Открытых: {openCount(tasks)}
+             </p>
+ 
++            {renameError && <p role="alert">{renameError}</p>}
++
+             <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+                 {FILTERS.map((f) => (
+                     <button
+diff --git a/src/tasks.ts b/src/tasks.ts
+index 29e2c69..aaf2235 100644
+--- a/src/tasks.ts
++++ b/src/tasks.ts
+@@ -21,32 +21,30 @@ export function isBlankTitle(title: string): boolean {
+     return title.trim().length === 0
+ }
+ 
+-/**
+- * Создание задачи. Форма создания проверяла название всегда — проблема в пути
+- * переименования ниже: старая форма сохраняла название без проверки.
+- */
++/** Создание задачи с содержательным названием без пробелов по краям. */
+ export function createTask(id: number, title: string): Task | undefined {
+     const trimmed = title.trim()
+     if (trimmed.length === 0) return undefined
+     return { id, title: trimmed, done: false }
+ }
+ 
+-/** Переименование существующей задачи. Проверки здесь нет — issue #7. */
++/** Пустое название оставляет существующие задачи без изменений. */
+ export function renameTask(tasks: Task[], id: number, title: string): Task[] {
+-    return tasks.map((task) => (task.id === id ? { ...task, title } : task))
++    const trimmed = title.trim()
++    if (trimmed.length === 0) return tasks
++    return tasks.map((task) => (task.id === id ? { ...task, title: trimmed } : task))
+ }
+ 
+ export function visibleTasks(tasks: Task[], filter: Filter): Task[] {
+-    if (filter === "open") return tasks.filter((task) => !task.done)
+-    if (filter === "done") return tasks.filter((task) => task.done)
+-    return tasks
++    return tasks.filter((task) => {
++        if (isBlankTitle(task.title)) return false
++        if (filter === "open") return !task.done
++        if (filter === "done") return task.done
++        return true
++    })
+ }
+ 
+-/**
+- * Счётчик в шапке. Он считает все открытые строки — включая унаследованную
+- * пустую, поэтому показывает 2, хотя на доске одна настоящая открытая задача
+- * и одна пустая строка.
+- */
++/** Счётчик совпадает с количеством задач в фильтре «Открытые». */
+ export function openCount(tasks: Task[]): number {
+-    return tasks.filter((task) => !task.done).length
++    return visibleTasks(tasks, "open").length
+ }

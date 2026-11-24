@@ -1,0 +1,14 @@
+$ npm run build
+npm notice run build
+npm notice run tsc --noEmit && vite build
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 16 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                  0.32 kB │ gzip:  0.23 kB
+dist/assets/index-DAucOcgG.js  221.62 kB │ gzip: 69.60 kB
+
+✓ built in 67ms
+
+Exit code: 0

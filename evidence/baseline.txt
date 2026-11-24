@@ -1,0 +1,14 @@
+$ npm test -- src/tasks.test.ts
+npm notice run test
+npm notice run vitest run src/tasks.test.ts
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  21:08:57
+   Duration  92ms (transform 61%, import 22%, worker 8%, tests 8%)
+
+
+Exit code: 0

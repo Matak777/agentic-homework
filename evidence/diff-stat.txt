@@ -1,0 +1,42 @@
+ .gitignore                              |   3 +
+ AGENTS.md                               |   8 +
+ INTERVENTIONS.md                        |  25 +
+ README.md                               |  51 ++
+ REFLECTION.md                           |   5 +
+ REPORT.md                               |  23 +
+ SPEC.md                                 |  23 +
+ evidence/SPEC-v1.md                     |  23 +
+ evidence/acceptance-v1.test.ts.snapshot | 131 ++++++
+ evidence/agent-v1.txt                   |  12 +
+ evidence/agent-v2.txt                   |   8 +
+ evidence/app-state.txt                  |  21 +
+ evidence/app-v1.jpg                     | Bin 0 -> 22225 bytes
+ evidence/app.jpg                        | Bin 0 -> 21995 bytes
+ evidence/app.png                        | Bin 0 -> 50434 bytes
+ evidence/baseline.txt                   |  14 +
+ evidence/before-agent-v1.json           |  18 +
+ evidence/before-agent-v2.json           |  18 +
+ evidence/before-fix.txt                 | 495 ++++++++++++++++++++
+ evidence/before-zero-width-fix.txt      | 162 +++++++
+ evidence/build-v1.txt                   |  14 +
+ evidence/build.txt                      |  14 +
+ evidence/code-review.txt                |  11 +
+ evidence/dev-server-final.txt           |   6 +
+ evidence/dev-server.txt                 |  25 +
+ evidence/diff-stat.txt                  |  42 ++
+ evidence/green-v1.txt                   |  14 +
+ evidence/green.txt                      |  14 +
+ evidence/implementation-final.patch     | 107 +++++
+ evidence/implementation-v1.patch        |  94 ++++
+ evidence/red-replay.txt                 | 190 ++++++++
+ evidence/red.txt                        | 800 ++++++++++++++++++++++++++++++++
+ evidence/test-review.txt                |   8 +
+ evidence/text-edits.txt                 |   4 +
+ evidence/ui-checks.txt                  |  14 +
+ evidence/verification.json              |  48 ++
+ scripts/check-mutation.py               |  71 +++
+ src/App.tsx                             |  11 +-
+ src/acceptance.test.ts                  | 131 ++++++
+ src/tasks.ts                            |  39 +-
+ src/zero-width.test.ts                  |  49 ++
+ 41 files changed, 2726 insertions(+), 20 deletions(-)

@@ -1,0 +1,800 @@
+Реальные независимые мутации. Перед каждой поломкой код зелёный; после неё восстановлен. Тесты во время мутаций не меняются.
+
+===== (а) убрано обрезание краёв в createTask =====
+2026-11-24T21:12:12.390339+03:00
+Green source SHA256: 1245174f69ad0de0bfe7f44940226128d2923b1727306237012c69da5e49bfaf
+--- src/tasks.ts (green)
++++ src/tasks.ts (mutation)
+@@ -23,7 +23,7 @@
+ 
+ /** Создание задачи с содержательным названием без пробелов по краям. */
+ export function createTask(id: number, title: string): Task | undefined {
+-    const trimmed = title.trim()
++    const trimmed = title
+     if (trimmed.length === 0) return undefined
+     return { id, title: trimmed, done: false }
+ }
+
+$ npm test
+npm notice run test
+npm notice run vitest run
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+ ❯ src/tasks.test.ts (2 tests | 1 failed) 5ms
+   ❯ базовая доска (2)
+     × создаёт задачу и обрезает название 4ms
+ ❯ src/acceptance.test.ts (30 tests | 9 failed) 11ms
+   ❯ R1: создание и переименование (20)
+     × считает пустым название " " 3ms
+     × считает пустым название "\t" 0ms
+     × считает пустым название " " 0ms
+     × считает пустым название " \t  " 0ms
+     × обрезает края при создании: "  Купить хлеб  " 1ms
+     × обрезает края при создании: "\tКупить хлеб\t" 0ms
+     × обрезает края при создании: " Купить хлеб " 0ms
+     × обрезает края при создании: " \t Купить хлеб \t " 0ms
+     × сохраняет внутренние пробелы содержательного названия 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > считает пустым название " "
+AssertionError: expected { id: 10, title: ' ', done: false } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+{
+  "done": false,
+  "id": 10,
+  "title": " ",
+}
+
+ ❯ src/acceptance.test.ts:20:39
+     18|     it.each(blanks)("считает пустым название %j", (title) => {
+     19|         expect(isBlankTitle(title)).toBe(true)
+     20|         expect(createTask(10, title)).toBeUndefined()
+       |                                       ^
+     21|     })
+     22|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > считает пустым название "\t"
+AssertionError: expected { id: 10, title: '\t', done: false } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+{
+  "done": false,
+  "id": 10,
+  "title": "	",
+}
+
+ ❯ src/acceptance.test.ts:20:39
+     18|     it.each(blanks)("считает пустым название %j", (title) => {
+     19|         expect(isBlankTitle(title)).toBe(true)
+     20|         expect(createTask(10, title)).toBeUndefined()
+       |                                       ^
+     21|     })
+     22|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > считает пустым название " "
+AssertionError: expected { id: 10, title: ' ', done: false } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+{
+  "done": false,
+  "id": 10,
+  "title": " ",
+}
+
+ ❯ src/acceptance.test.ts:20:39
+     18|     it.each(blanks)("считает пустым название %j", (title) => {
+     19|         expect(isBlankTitle(title)).toBe(true)
+     20|         expect(createTask(10, title)).toBeUndefined()
+       |                                       ^
+     21|     })
+     22|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > считает пустым название " \t  "
+AssertionError: expected { id: 10, title: ' \t  ', done: false } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+{
+  "done": false,
+  "id": 10,
+  "title": " 	  ",
+}
+
+ ❯ src/acceptance.test.ts:20:39
+     18|     it.each(blanks)("считает пустым название %j", (title) => {
+     19|         expect(isBlankTitle(title)).toBe(true)
+     20|         expect(createTask(10, title)).toBeUndefined()
+       |                                       ^
+     21|     })
+     22|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > обрезает края при создании: "  Купить хлеб  "
+AssertionError: expected { id: 10, …(2) } to deeply equal { id: 10, title: 'Купить хлеб', …(1) }
+
+- Expected
++ Received
+
+  {
+    "done": false,
+    "id": 10,
+-   "title": "Купить хлеб",
++   "title": "  Купить хлеб  ",
+  }
+
+ ❯ src/acceptance.test.ts:24:39
+     22|
+     23|     it.each(padded)("обрезает края при создании: %j", (title) => {
+     24|         expect(createTask(10, title)).toEqual({ id: 10, title: "Купить…
+       |                                       ^
+     25|     })
+     26|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > обрезает края при создании: "\tКупить хлеб\t"
+AssertionError: expected { id: 10, …(2) } to deeply equal { id: 10, title: 'Купить хлеб', …(1) }
+
+- Expected
++ Received
+
+  {
+    "done": false,
+    "id": 10,
+-   "title": "Купить хлеб",
++   "title": "	Купить хлеб	",
+  }
+
+ ❯ src/acceptance.test.ts:24:39
+     22|
+     23|     it.each(padded)("обрезает края при создании: %j", (title) => {
+     24|         expect(createTask(10, title)).toEqual({ id: 10, title: "Купить…
+       |                                       ^
+     25|     })
+     26|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > обрезает края при создании: " Купить хлеб "
+AssertionError: expected { Object (id, title, ...) } to deeply equal { id: 10, title: 'Купить хлеб', …(1) }
+
+- Expected
++ Received
+
+  {
+    "done": false,
+    "id": 10,
+-   "title": "Купить хлеб",
++   "title": " Купить хлеб ",
+  }
+
+ ❯ src/acceptance.test.ts:24:39
+     22|
+     23|     it.each(padded)("обрезает края при создании: %j", (title) => {
+     24|         expect(createTask(10, title)).toEqual({ id: 10, title: "Купить…
+       |                                       ^
+     25|     })
+     26|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > обрезает края при создании: " \t Купить хлеб \t "
+AssertionError: expected { id: 10, …(2) } to deeply equal { id: 10, title: 'Купить хлеб', …(1) }
+
+- Expected
++ Received
+
+  {
+    "done": false,
+    "id": 10,
+-   "title": "Купить хлеб",
++   "title": " 	 Купить хлеб 	 ",
+  }
+
+ ❯ src/acceptance.test.ts:24:39
+     22|
+     23|     it.each(padded)("обрезает края при создании: %j", (title) => {
+     24|         expect(createTask(10, title)).toEqual({ id: 10, title: "Купить…
+       |                                       ^
+     25|     })
+     26|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > сохраняет внутренние пробелы содержательного названия
+AssertionError: expected ' Купить  хлеб\tи молоко ' to be 'Купить  хлеб\tи молоко' // Object.is equality
+
+Expected: "Купить  хлеб	и молоко"
+Received: " Купить  хлеб	и молоко "
+
+ ❯ src/acceptance.test.ts:52:52
+     50|     it("сохраняет внутренние пробелы содержательного названия", () => {
+     51|         const title = "Купить  хлеб\tи\u00a0молоко"
+     52|         expect(createTask(1, ` ${title} `)?.title).toBe(title)
+       |                                                    ^
+     53|         expect(renameTask([{ id: 1, title: "Было", done: false }], 1, …
+     54|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+ FAIL  src/tasks.test.ts > базовая доска > создаёт задачу и обрезает название
+AssertionError: expected '  Купить хлеб  ' to be 'Купить хлеб' // Object.is equality
+
+Expected: "Купить хлеб"
+Received: "  Купить хлеб  "
+
+ ❯ src/tasks.test.ts:9:29
+      7|     it("создаёт задачу и обрезает название", () => {
+      8|         const task = createTask(9, "  Купить хлеб  ")
+      9|         expect(task?.title).toBe("Купить хлеб")
+       |                             ^
+     10|     })
+     11|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  10 failed | 22 passed (32)
+   Start at  21:12:12
+   Duration  125ms (transform 42%, tests 27%, import 23%, worker 8%)
+
+
+Exit code: 1
+
+Restored original source; $ npm test
+npm notice run test
+npm notice run vitest run
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+
+ Test Files  2 passed (2)
+      Tests  32 passed (32)
+   Start at  21:12:13
+   Duration  85ms (import 41%, tests 22%, transform 21%, worker 14%, environment 1%)
+
+
+Exit code: 0
+Restored source SHA256: 1245174f69ad0de0bfe7f44940226128d2923b1727306237012c69da5e49bfaf
+
+===== (б) убрана валидация пустоты в renameTask =====
+2026-11-24T21:12:13.277837+03:00
+Green source SHA256: 1245174f69ad0de0bfe7f44940226128d2923b1727306237012c69da5e49bfaf
+--- src/tasks.ts (green)
++++ src/tasks.ts (mutation)
+@@ -31,7 +31,6 @@
+ /** Пустое название оставляет существующие задачи без изменений. */
+ export function renameTask(tasks: Task[], id: number, title: string): Task[] {
+     const trimmed = title.trim()
+-    if (trimmed.length === 0) return tasks
+     return tasks.map((task) => (task.id === id ? { ...task, title: trimmed } : task))
+ }
+ 
+
+$ npm test
+npm notice run test
+npm notice run vitest run
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+ ❯ src/acceptance.test.ts (30 tests | 5 failed) 10ms
+   ❯ R1: создание и переименование (20)
+     × отклоняет пустое переименование "" и сохраняет прежнюю задачу 4ms
+     × отклоняет пустое переименование " " и сохраняет прежнюю задачу 1ms
+     × отклоняет пустое переименование "\t" и сохраняет прежнюю задачу 0ms
+     × отклоняет пустое переименование " " и сохраняет прежнюю задачу 0ms
+     × отклоняет пустое переименование " \t  " и сохраняет прежнюю задачу 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > отклоняет пустое переименование "" и сохраняет прежнюю задачу
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > отклоняет пустое переименование " " и сохраняет прежнюю задачу
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > отклоняет пустое переименование "\t" и сохраняет прежнюю задачу
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > отклоняет пустое переименование " " и сохраняет прежнюю задачу
+ FAIL  src/acceptance.test.ts > R1: создание и переименование > отклоняет пустое переименование " \t  " и сохраняет прежнюю задачу
+AssertionError: expected [ …(2) ] to deeply equal [ { id: 1, …(2) }, { id: 2, …(2) } ]
+
+- Expected
++ Received
+
+@@ -1,10 +1,10 @@
+  [
+    {
+      "done": true,
+      "id": 1,
+-     "title": "Прежнее название",
++     "title": "",
+    },
+    {
+      "done": false,
+      "id": 2,
+      "title": "Другая задача",
+
+ ❯ src/acceptance.test.ts:33:45
+     31|         ]
+     32|         const before = structuredClone(tasks)
+     33|         expect(renameTask(tasks, 1, title)).toEqual(before)
+       |                                             ^
+     34|         expect(tasks).toEqual(before)
+     35|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  5 failed | 27 passed (32)
+   Start at  21:12:13
+   Duration  116ms (transform 45%, import 24%, tests 23%, worker 8%)
+
+
+Exit code: 1
+
+Restored original source; $ npm test
+npm notice run test
+npm notice run vitest run
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+
+ Test Files  2 passed (2)
+      Tests  32 passed (32)
+   Start at  21:12:14
+   Duration  83ms (import 44%, tests 23%, transform 18%, worker 14%, environment 1%)
+
+
+Exit code: 0
+Restored source SHA256: 1245174f69ad0de0bfe7f44940226128d2923b1727306237012c69da5e49bfaf
+
+===== (в) убрана фильтрация унаследованных пустых названий =====
+2026-11-24T21:12:14.143790+03:00
+Green source SHA256: 1245174f69ad0de0bfe7f44940226128d2923b1727306237012c69da5e49bfaf
+--- src/tasks.ts (green)
++++ src/tasks.ts (mutation)
+@@ -37,7 +37,6 @@
+ 
+ export function visibleTasks(tasks: Task[], filter: Filter): Task[] {
+     return tasks.filter((task) => {
+-        if (isBlankTitle(task.title)) return false
+         if (filter === "open") return !task.done
+         if (filter === "done") return task.done
+         return true
+
+$ npm test
+npm notice run test
+npm notice run vitest run
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+ ❯ src/acceptance.test.ts (30 tests | 8 failed) 10ms
+   ❯ R2: унаследованные пустые строки (4)
+     × скрывает старые пустые строки в фильтре all 3ms
+     × скрывает старые пустые строки в фильтре open 0ms
+     × скрывает старые пустые строки в фильтре done 0ms
+     × скрывает существующую строку 3 стартера без удаления из данных 0ms
+   ❯ R3: счётчик открытых совпадает со списком (6)
+     × считает произвольную доску: только пустые и готовые 0ms
+     × считает произвольную доску: несколько открытых 0ms
+     × показывает одну открытую задачу на исходных данных 0ms
+     × не считает пустые строки любых статусов и завершённые задачи 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/acceptance.test.ts > R2: унаследованные пустые строки > скрывает старые пустые строки в фильтре all
+AssertionError: expected [ 1, 2, 10, 11, 12, 13, 14, 15, …(4) ] to deeply equal [ 1, 2 ]
+
+- Expected
++ Received
+
+  [
+    1,
+    2,
++   10,
++   11,
++   12,
++   13,
++   14,
++   15,
++   16,
++   17,
++   18,
++   19,
+  ]
+
+ ❯ src/acceptance.test.ts:80:71
+     78|     ] as const)("скрывает старые пустые строки в фильтре %s", (filter,…
+     79|         const before = structuredClone(oldTasks)
+     80|         expect(visibleTasks(oldTasks, filter).map((task) => task.id)).…
+       |                                                                       ^
+     81|         expect(oldTasks).toEqual(before)
+     82|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/acceptance.test.ts > R2: унаследованные пустые строки > скрывает старые пустые строки в фильтре open
+AssertionError: expected [ 1, 10, 12, 14, 16, 18 ] to deeply equal [ 1 ]
+
+- Expected
++ Received
+
+  [
+    1,
++   10,
++   12,
++   14,
++   16,
++   18,
+  ]
+
+ ❯ src/acceptance.test.ts:80:71
+     78|     ] as const)("скрывает старые пустые строки в фильтре %s", (filter,…
+     79|         const before = structuredClone(oldTasks)
+     80|         expect(visibleTasks(oldTasks, filter).map((task) => task.id)).…
+       |                                                                       ^
+     81|         expect(oldTasks).toEqual(before)
+     82|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/acceptance.test.ts > R2: унаследованные пустые строки > скрывает старые пустые строки в фильтре done
+AssertionError: expected [ 2, 11, 13, 15, 17, 19 ] to deeply equal [ 2 ]
+
+- Expected
++ Received
+
+  [
+    2,
++   11,
++   13,
++   15,
++   17,
++   19,
+  ]
+
+ ❯ src/acceptance.test.ts:80:71
+     78|     ] as const)("скрывает старые пустые строки в фильтре %s", (filter,…
+     79|         const before = structuredClone(oldTasks)
+     80|         expect(visibleTasks(oldTasks, filter).map((task) => task.id)).…
+       |                                                                       ^
+     81|         expect(oldTasks).toEqual(before)
+     82|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  src/acceptance.test.ts > R2: унаследованные пустые строки > скрывает существующую строку 3 стартера без удаления из данных
+AssertionError: expected [ 1, 2, 3 ] to deeply equal [ 1, 2 ]
+
+- Expected
++ Received
+
+  [
+    1,
+    2,
++   3,
+  ]
+
+ ❯ src/acceptance.test.ts:85:71
+     83|
+     84|     it("скрывает существующую строку 3 стартера без удаления из данных…
+     85|         expect(visibleTasks(seedTasks, "all").map((task) => task.id)).…
+       |                                                                       ^
+     86|         expect(visibleTasks(seedTasks, "open").map((task) => task.id))…
+     87|         expect(seedTasks.find((task) => task.id === 3)?.title).toBe(" …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  src/acceptance.test.ts > R3: счётчик открытых совпадает со списком > считает произвольную доску: только пустые и готовые
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/acceptance.test.ts:107:34
+    105|     ])("считает произвольную доску: $label", ({ tasks, expected }) => {
+    106|         const before = structuredClone(tasks)
+    107|         expect(openCount(tasks)).toBe(expected)
+       |                                  ^
+    108|         expect(openCount(tasks)).toBe(visibleTasks(tasks, "open").leng…
+    109|         expect(tasks).toEqual(before)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  src/acceptance.test.ts > R3: счётчик открытых совпадает со списком > считает произвольную доску: несколько открытых
+AssertionError: expected 4 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 4
+
+ ❯ src/acceptance.test.ts:107:34
+    105|     ])("считает произвольную доску: $label", ({ tasks, expected }) => {
+    106|         const before = structuredClone(tasks)
+    107|         expect(openCount(tasks)).toBe(expected)
+       |                                  ^
+    108|         expect(openCount(tasks)).toBe(visibleTasks(tasks, "open").leng…
+    109|         expect(tasks).toEqual(before)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  src/acceptance.test.ts > R3: счётчик открытых совпадает со списком > показывает одну открытую задачу на исходных данных
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ src/acceptance.test.ts:113:38
+    111|
+    112|     it("показывает одну открытую задачу на исходных данных", () => {
+    113|         expect(openCount(seedTasks)).toBe(1)
+       |                                      ^
+    114|         expect(openCount(seedTasks)).toBe(visibleTasks(seedTasks, "ope…
+    115|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  src/acceptance.test.ts > R3: счётчик открытых совпадает со списком > не считает пустые строки любых статусов и завершённые задачи
+AssertionError: expected 6 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 6
+
+ ❯ src/acceptance.test.ts:126:34
+    124|             ]),
+    125|         ]
+    126|         expect(openCount(tasks)).toBe(1)
+       |                                  ^
+    127|         expect(openCount(tasks)).toBe(visibleTasks(tasks, "open").leng…
+    128|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  8 failed | 24 passed (32)
+   Start at  21:12:14
+   Duration  125ms (transform 46%, import 24%, tests 22%, worker 8%)
+
+
+Exit code: 1
+
+Restored original source; $ npm test
+npm notice run test
+npm notice run vitest run
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+
+ Test Files  2 passed (2)
+      Tests  32 passed (32)
+   Start at  21:12:14
+   Duration  83ms (import 41%, tests 23%, transform 22%, worker 14%, environment 1%)
+
+
+Exit code: 0
+Restored source SHA256: 1245174f69ad0de0bfe7f44940226128d2923b1727306237012c69da5e49bfaf
+
+===== (г) откат единой обработки U+200B к обычному String.trim() =====
+2026-11-24T21:32:15.075439+03:00
+Green source SHA256: e651e37d9d9a4ce29159afeb176bf0c653fcc87310c204c71e9445d6983038bd
+--- src/tasks.ts (green)
++++ src/tasks.ts (mutation)
+@@ -18,7 +18,7 @@
+ 
+ /** Убирает с краёв пробельные символы и U+200B, сохраняя внутренние символы. */
+ function trimTitle(title: string): string {
+-    return title.replace(/^[\s\u200B]+|[\s\u200B]+$/g, "")
++    return title.trim()
+ }
+ 
+ /** Название из пробельных символов и U+200B считается отсутствующим. */
+
+$ npm test
+npm notice run test
+npm notice run vitest run
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+ ❯ src/zero-width.test.ts (9 tests | 9 failed) 9ms
+   ❯ Изменение требования: U+200B тоже пустота (9)
+     × R1: отклоняет создание и переименование в "​" 4ms
+     × R1: отклоняет создание и переименование в "​​" 0ms
+     × R1: отклоняет создание и переименование в " \t ​  " 0ms
+     × R1: отклоняет создание и переименование в "​ ​\t" 0ms
+     × R2: скрывает унаследованный U+200B в фильтре all 1ms
+     × R2: скрывает унаследованный U+200B в фильтре open 0ms
+     × R2: скрывает унаследованный U+200B в фильтре done 0ms
+     × R3: не считает U+200B открытой задачей 0ms
+     × обрезает U+200B только по краям, сохраняя внутренние символы 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R1: отклоняет создание и переименование в "​"
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R1: отклоняет создание и переименование в "​​"
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R1: отклоняет создание и переименование в " \t ​  "
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R1: отклоняет создание и переименование в "​ ​\t"
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/zero-width.test.ts:12:37
+     10|         const tasks: Task[] = [{ id: 1, title: "Сохранить название", d…
+     11|         const before = structuredClone(tasks)
+     12|         expect(isBlankTitle(title)).toBe(true)
+       |                                     ^
+     13|         expect(createTask(2, title)).toBeUndefined()
+     14|         expect(renameTask(tasks, 1, title)).toEqual(before)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R2: скрывает унаследованный U+200B в фильтре all
+AssertionError: expected [ Array(10) ] to deeply equal [ 1, 2 ]
+
+- Expected
++ Received
+
+  [
+    1,
+    2,
++   10,
++   11,
++   12,
++   13,
++   14,
++   15,
++   16,
++   17,
+  ]
+
+ ❯ src/zero-width.test.ts:29:68
+     27|         const before = structuredClone(tasks)
+     28|         const expected = filter === "all" ? [1, 2] : filter === "open"…
+     29|         expect(visibleTasks(tasks, filter).map((task) => task.id)).toE…
+       |                                                                    ^
+     30|         expect(tasks).toEqual(before)
+     31|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R2: скрывает унаследованный U+200B в фильтре open
+AssertionError: expected [ 1, 10, 12, 14, 16 ] to deeply equal [ 1 ]
+
+- Expected
++ Received
+
+  [
+    1,
++   10,
++   12,
++   14,
++   16,
+  ]
+
+ ❯ src/zero-width.test.ts:29:68
+     27|         const before = structuredClone(tasks)
+     28|         const expected = filter === "all" ? [1, 2] : filter === "open"…
+     29|         expect(visibleTasks(tasks, filter).map((task) => task.id)).toE…
+       |                                                                    ^
+     30|         expect(tasks).toEqual(before)
+     31|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R2: скрывает унаследованный U+200B в фильтре done
+AssertionError: expected [ 2, 11, 13, 15, 17 ] to deeply equal [ 2 ]
+
+- Expected
++ Received
+
+  [
+    2,
++   11,
++   13,
++   15,
++   17,
+  ]
+
+ ❯ src/zero-width.test.ts:29:68
+     27|         const before = structuredClone(tasks)
+     28|         const expected = filter === "all" ? [1, 2] : filter === "open"…
+     29|         expect(visibleTasks(tasks, filter).map((task) => task.id)).toE…
+       |                                                                    ^
+     30|         expect(tasks).toEqual(before)
+     31|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R3: не считает U+200B открытой задачей
+AssertionError: expected 6 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 6
+
+ ❯ src/zero-width.test.ts:39:34
+     37|             ...zeroWidthBlanks.map((title, i) => ({ id: 10 + i, title,…
+     38|         ]
+     39|         expect(openCount(tasks)).toBe(2)
+       |                                  ^
+     40|         expect(openCount(tasks)).toBe(visibleTasks(tasks, "open").leng…
+     41|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > обрезает U+200B только по краям, сохраняя внутренние символы
+AssertionError: expected '​ \tКупить​ хлеб ​' to be 'Купить​ хлеб' // Object.is equality
+
+Expected: "Купить​ хлеб"
+Received: "​ 	Купить​ хлеб ​"
+
+ ❯ src/zero-width.test.ts:47:46
+     45|         const padded = `\u200b \t${title}\u00a0\u200b`
+     46|         expect(isBlankTitle(title)).toBe(false)
+     47|         expect(createTask(1, padded)?.title).toBe(title)
+       |                                              ^
+     48|         expect(renameTask([{ id: 1, title: "Было", done: false }], 1, …
+     49|         expect(visibleTasks([{ id: 1, title, done: false }], "open")).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  9 failed | 32 passed (41)
+   Start at  21:32:15
+   Duration  133ms (transform 49%, import 23%, tests 20%, worker 8%)
+
+
+Exit code: 1
+
+Restored original source; $ npm test
+npm notice run test
+npm notice run vitest run
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+
+ Test Files  3 passed (3)
+      Tests  41 passed (41)
+   Start at  21:32:15
+   Duration  88ms (import 42%, tests 22%, transform 21%, worker 14%, environment 1%)
+
+
+Exit code: 0
+Restored source SHA256: e651e37d9d9a4ce29159afeb176bf0c653fcc87310c204c71e9445d6983038bd

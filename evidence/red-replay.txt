@@ -1,0 +1,190 @@
+===== (г) повтор =====
+--- green/src/tasks.ts
++++ broken/src/tasks.ts
+@@ -18,7 +18,7 @@
+ 
+ /** Убирает с краёв пробельные символы и U+200B, сохраняя внутренние символы. */
+ function trimTitle(title: string): string {
+-    return title.replace(/^[\s\u200B]+|[\s\u200B]+$/g, "")
++    return title.trim()
+ }
+ 
+ /** Название из пробельных символов и U+200B считается отсутствующим. */
+
+$ npm test
+npm notice run test
+npm notice run vitest run
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+ ❯ src/zero-width.test.ts (9 tests | 9 failed) 8ms
+   ❯ Изменение требования: U+200B тоже пустота (9)
+     × R1: отклоняет создание и переименование в "​" 4ms
+     × R1: отклоняет создание и переименование в "​​" 0ms
+     × R1: отклоняет создание и переименование в " \t ​  " 0ms
+     × R1: отклоняет создание и переименование в "​ ​\t" 0ms
+     × R2: скрывает унаследованный U+200B в фильтре all 1ms
+     × R2: скрывает унаследованный U+200B в фильтре open 0ms
+     × R2: скрывает унаследованный U+200B в фильтре done 0ms
+     × R3: не считает U+200B открытой задачей 0ms
+     × обрезает U+200B только по краям, сохраняя внутренние символы 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R1: отклоняет создание и переименование в "​"
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R1: отклоняет создание и переименование в "​​"
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R1: отклоняет создание и переименование в " \t ​  "
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R1: отклоняет создание и переименование в "​ ​\t"
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/zero-width.test.ts:12:37
+     10|         const tasks: Task[] = [{ id: 1, title: "Сохранить название", d…
+     11|         const before = structuredClone(tasks)
+     12|         expect(isBlankTitle(title)).toBe(true)
+       |                                     ^
+     13|         expect(createTask(2, title)).toBeUndefined()
+     14|         expect(renameTask(tasks, 1, title)).toEqual(before)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R2: скрывает унаследованный U+200B в фильтре all
+AssertionError: expected [ Array(10) ] to deeply equal [ 1, 2 ]
+
+- Expected
++ Received
+
+  [
+    1,
+    2,
++   10,
++   11,
++   12,
++   13,
++   14,
++   15,
++   16,
++   17,
+  ]
+
+ ❯ src/zero-width.test.ts:29:68
+     27|         const before = structuredClone(tasks)
+     28|         const expected = filter === "all" ? [1, 2] : filter === "open"…
+     29|         expect(visibleTasks(tasks, filter).map((task) => task.id)).toE…
+       |                                                                    ^
+     30|         expect(tasks).toEqual(before)
+     31|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R2: скрывает унаследованный U+200B в фильтре open
+AssertionError: expected [ 1, 10, 12, 14, 16 ] to deeply equal [ 1 ]
+
+- Expected
++ Received
+
+  [
+    1,
++   10,
++   12,
++   14,
++   16,
+  ]
+
+ ❯ src/zero-width.test.ts:29:68
+     27|         const before = structuredClone(tasks)
+     28|         const expected = filter === "all" ? [1, 2] : filter === "open"…
+     29|         expect(visibleTasks(tasks, filter).map((task) => task.id)).toE…
+       |                                                                    ^
+     30|         expect(tasks).toEqual(before)
+     31|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R2: скрывает унаследованный U+200B в фильтре done
+AssertionError: expected [ 2, 11, 13, 15, 17 ] to deeply equal [ 2 ]
+
+- Expected
++ Received
+
+  [
+    2,
++   11,
++   13,
++   15,
++   17,
+  ]
+
+ ❯ src/zero-width.test.ts:29:68
+     27|         const before = structuredClone(tasks)
+     28|         const expected = filter === "all" ? [1, 2] : filter === "open"…
+     29|         expect(visibleTasks(tasks, filter).map((task) => task.id)).toE…
+       |                                                                    ^
+     30|         expect(tasks).toEqual(before)
+     31|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > R3: не считает U+200B открытой задачей
+AssertionError: expected 6 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 6
+
+ ❯ src/zero-width.test.ts:39:34
+     37|             ...zeroWidthBlanks.map((title, i) => ({ id: 10 + i, title,…
+     38|         ]
+     39|         expect(openCount(tasks)).toBe(2)
+       |                                  ^
+     40|         expect(openCount(tasks)).toBe(visibleTasks(tasks, "open").leng…
+     41|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  src/zero-width.test.ts > Изменение требования: U+200B тоже пустота > обрезает U+200B только по краям, сохраняя внутренние символы
+AssertionError: expected '​ \tКупить​ хлеб ​' to be 'Купить​ хлеб' // Object.is equality
+
+Expected: "Купить​ хлеб"
+Received: "​ 	Купить​ хлеб ​"
+
+ ❯ src/zero-width.test.ts:47:46
+     45|         const padded = `\u200b \t${title}\u00a0\u200b`
+     46|         expect(isBlankTitle(title)).toBe(false)
+     47|         expect(createTask(1, padded)?.title).toBe(title)
+       |                                              ^
+     48|         expect(renameTask([{ id: 1, title: "Было", done: false }], 1, …
+     49|         expect(visibleTasks([{ id: 1, title, done: false }], "open")).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  9 failed | 32 passed (41)
+   Start at  21:38:11
+   Duration  120ms (import 38%, tests 28%, transform 21%, worker 12%)
+
+
+Exit code: 1
+
+Восстановлено; $ npm test
+npm notice run test
+npm notice run vitest run
+
+ RUN  v5.0.5 /Users/makarnazarov/Documents/Codex/2026-11-24/src-tasks-ts-src-app-tsx/outputs/agentic-homework
+
+
+ Test Files  3 passed (3)
+      Tests  41 passed (41)
+   Start at  21:38:12
+   Duration  87ms (import 41%, tests 22%, transform 21%, worker 14%, environment 1%)
+
+
+Exit code: 0
